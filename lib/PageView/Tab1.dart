@@ -1,6 +1,6 @@
 import 'package:ctestapp/Base/BaseConstant.dart';
 import 'package:flutter/material.dart';
-import 'LoginWidget.dart';
+import '../Login/LoginWidget.dart';
 
 void main() => runApp(LoginCT());
 
