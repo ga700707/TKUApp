@@ -33,7 +33,7 @@ class _ClsBottomState extends State<ClsBottom> {
         // Goto Home
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ClsPage1()),
+          MaterialPageRoute(builder: (context) => Page1()),
         );
         Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
         break;

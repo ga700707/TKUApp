@@ -1,6 +1,8 @@
 import 'package:ctestapp/Base/BaseConstant.dart';
-import 'package:ctestapp/Login/LoginWidget.dart';
+//import 'package:ctestapp/Login/LoginWidget.dart';
 import 'package:flutter/material.dart';
+
+import '../Login/LoginWidget.dart';
 
 void main() => runApp(ClsPage2());
 
@@ -22,33 +24,34 @@ class ClsPage2 extends StatelessWidget {
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    mcontext = context;
     return Center(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 10),
         child: Column(children: <Widget>[
           Padding(
             padding: EdgeInsets.symmetric(vertical: MaxSize.height / 80),
-            child: createLoginBtn(context),
+            child: createLoginBtn(),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: MaxSize.height / 80),
-            child: createLoginBtn(context),
+            child: createLoginBtn(),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: MaxSize.height / 80),
-            child: createLoginBtn(context),
+            child: createLoginBtn(),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: MaxSize.height / 80),
-            child: createLoginBtn(context),
+            child: createLoginBtn(),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: MaxSize.height / 80),
-            child: createLoginBtn(context),
+            child: createLoginBtn(),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: MaxSize.height / 80),
-            child: createLoginBtn(context),
+            child: createLoginBtn(),
           ),
         ]),
       ),

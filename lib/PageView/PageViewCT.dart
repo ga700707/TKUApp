@@ -1,8 +1,8 @@
-import 'package:ctestapp/PageView/Page1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'Page1.dart';
 import 'Page2.dart';
 import 'Page3.dart';
 
@@ -99,7 +99,7 @@ class _HomePageState extends State<PageViewCT>
                 switch (index%3) {
                   case 0:
                     return new Center(
-                      child: ClsPage1(),
+                      child: Page1(),
                     );
                   case 1:
                     return new Center(
@@ -112,7 +112,7 @@ class _HomePageState extends State<PageViewCT>
                     );
                 }
                 return new Center(
-                  child: ClsPage1(),
+                  child: Page1(),
                 );
               },
               onPageChanged: (index) {

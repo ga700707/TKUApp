@@ -36,7 +36,7 @@ class LoginPage extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: MaxSize.height / 80),
-            child: createLoginBtn(context),
+            child: createLoginBtn(),
           ),
         ]),
       ),

@@ -1,32 +1,31 @@
-import 'package:ctestapp/Base/BaseConstant.dart';
-import 'package:ctestapp/PageView/Page1Widget.dart';
+import 'Page1Widget.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(ClsPage1());
+void main() => runApp(Page1());
 
-class ClsPage1 extends StatelessWidget {
+class Page1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.red[100],
         appBar: AppBar(
-          title: Text('CTest'),
+          title: Text('CTes111t'),
         ),
-        body: LoginPage(),
+        body: Page1Body(),
       ),
     );
   }
 }
 
-class LoginPage extends StatelessWidget {
+class Page1Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
+    mcontext = context;
     return Center(
       child: Center(
         
-        child: createLoginBtn(context)), 
+        child: checkBtn())
     );
   }
 }

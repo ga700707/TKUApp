@@ -21,7 +21,8 @@ class LoginCT extends StatelessWidget {
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
+    mcontext = context;
+    initData();
     return Center(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 10),
@@ -36,7 +37,7 @@ class LoginPage extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: MaxSize.height / 80),
-            child: createLoginBtn(context),
+            child: createLoginBtn(),
           ),
         ]),
       ),

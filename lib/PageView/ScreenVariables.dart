@@ -43,7 +43,7 @@ class sv {
   static double dblDefaultRoundRadius = 0;
 
   // Init Function
-  static void Init() {
+  static void init() {
     dblScreenHeight = window.physicalSize.height / window.devicePixelRatio;
     dblScreenWidth = window.physicalSize.width / window.devicePixelRatio;
 
