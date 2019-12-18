@@ -12,13 +12,23 @@ class LoginCT extends StatelessWidget {
         appBar: AppBar(
           title: Text('CTest'),
         ),
-        body: LoginPage(),
+        body: MyHomePage(),
       ),
     );
   }
 }
 
-class LoginPage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  LoginPage createState() => LoginPage();
+}
+
+class LoginPage extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     mcontext = context;

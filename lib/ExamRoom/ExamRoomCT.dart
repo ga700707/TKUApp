@@ -1,62 +1,142 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:audioplayers/audioplayers.dart';
-import 'package:ctestapp/Base/BaseConstant.dart';
+import 'package:ctestapp/ExamModal/AC1.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:orientation/orientation.dart';
 
 import '../Base/AudioProvider.dart';
+import '../Base/BaseConstant.dart';
+import '../Login/LoginWidget.dart';
 
-void main() => runApp(ExamRoomCT());
+void main() {
+  // 强制竖屏
+
+  //runApp(new ExamRoomCT());
+}
 
 class ExamRoomCT extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('CTest'),
-        ),
-        body: ExamRoomBody(),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar:
+            PreferredSize(child: AppBar(), preferredSize: Size.fromHeight(0)),
+        body: ExamPage(),
       ),
     );
   }
+
+  Future<bool> _onWillPop() {
+    return showDialog(
+          context: mcontext,
+          builder: (context) => new AlertDialog(
+            title: new Text('退出App?'),
+            content: new Text('Do you want to exit an App'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('不'),
+              ),
+              new FlatButton(
+                onPressed: () async {
+                  await pop();
+                },
+                child: new Text('是的'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
+  static Future<void> pop() async {
+    await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+  }
+  //ExamRoomBody createState() => ExamRoomBody();
 }
 
-class ExamRoomBody extends StatelessWidget {
-  static String url =
-      'https://codingwithjoe.com/wp-content/uploads/2018/03/applause.mp3';
-  AudioPlayer audioPlayer = new AudioPlayer();
-  AudioProvider audioProvider = new AudioProvider(url);
+class ExamPage extends StatefulWidget {
+  @override
+  ExamRoomBody createState() => ExamRoomBody();
+}
+
+enum PlayerState { stopped, playing, paused }
+
+class ExamRoomBody extends State<ExamPage> {
+  Duration duration;
+  Duration position;
+  AudioPlayer audioPlayer;
+  // PlayerState playerState = PlayerState.playing;
+
+  // get isPlaying => playerState == PlayerState.playing;
+  // get isPaused => playerState == PlayerState.paused;
+
+  get durationText =>
+      duration != null ? duration.toString().split('.').first : '';
+  get positionText =>
+      position != null ? position.toString().split('.').first : '';
+
+  bool isMuted = false;
+
+  StreamSubscription _positionSubscription;
+  StreamSubscription _audioPlayerStateSubscription;
+  @override
+  void initState() {
+    super.initState();
+    initAudioPlayer();
+    OrientationPlugin.forceOrientation(DeviceOrientation.landscapeLeft);
+  }
+
+  @override
+  void dispose() {
+    // _positionSubscription.cancel();
+    // _audioPlayerStateSubscription.cancel();
+    audioPlayer.stop();
+    if(Constant.turnScreen)
+      OrientationPlugin.forceOrientation(DeviceOrientation.portraitUp);
+    Constant.turnScreen=true;
+    print("Dispose");
+    super.dispose();
+  }
+
+  void initAudioPlayer() async {
+    audioPlayer = new AudioPlayer();
+    VoicePlay().init(audioPlayer);
+  }
+
+  void onComplete() {
+    //setState(() => playerState = PlayerState.stopped);
+  }
+
   @override
   Widget build(BuildContext context) {
-    //mcontext = context;
+    MaxSize().initWH(context);
 
-    double _value = 0;
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 10),
-        child: Column(children: <Widget>[
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: MaxSize.height / 80),
-            child: Slider(
-              value: _value,
-              onChanged: (newValue) {
-                print('onChanged:$newValue');
-                _value = newValue;
-              },
-              onChangeStart: (startValue) {
-                print('onChangeStart:$startValue');
-              },
-              onChangeEnd: (endValue) {
-                print('onChangeEnd:$endValue');
-              },
-              label: '$_value dollars',
-              divisions: 5,
-              semanticFormatterCallback: (newValue) {
-                return '${newValue.round()} dollars';
-              },
-            ),
-          ),
-        ]),
-      ),
-    );
+    switch (ExampleContent.category) {
+      case 0:
+        return Center(
+          child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 20),
+              child: AC1()),
+        );
+      default:
+        return Center(
+          child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 20),
+              child: AC1()),
+        );
+    }
+   
+  }
+
+  getExamModal() {
+    switch (ExampleContent.category) {
+      case 0:
+        return AC1();
+    }
   }
 }

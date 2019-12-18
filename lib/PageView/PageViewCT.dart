@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:orientation/orientation.dart';
 
 import 'Page1.dart';
 import 'Page2.dart';
@@ -11,8 +12,10 @@ import 'Page3.dart';
 // import './index_page.dart';
 
 class PageViewCT extends StatefulWidget {
+  
   @override
   _HomePageState createState() => _HomePageState();
+  
 }
 
 //要混入SingleTickerProviderStateMixin
@@ -68,62 +71,59 @@ class _HomePageState extends State<PageViewCT>
   void initState() {
     //页面控制器初始化
     _pageController = new PageController(initialPage: 0);
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     //WillPopScope监听安卓返回键
-    return WillPopScope(
-        onWillPop: _onWillPop,
-        child: Container(
-          child: Scaffold(
-            bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              currentIndex: currentIndex,
-              items: bottomTabs,
-              onTap: (index) {
-                setState(() {
-                  currentIndex = index;
-                });
-                //点击下面tabbar的时候执行动画跳转方法
-                _pageController.animateToPage(index,
-                    duration: new Duration(milliseconds: 500),
-                    curve: new ElasticOutCurve(4));
-              },
-            ),
-            body: PageView.builder(
-              controller: _pageController,
-              itemBuilder: (context, index) {
-                switch (index%3) {
-                  case 0:
-                    return new Center(
-                      child: Page1(),
-                    );
-                  case 1:
-                    return new Center(
-                      child: ClsPage2(),
-                    );
-
-                  case 2:
-                    return new Center(
-                      child: ClsPage3(),
-                    );
-                }
+    return Container(
+      child: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: currentIndex,
+          items: bottomTabs,
+          onTap: (index) {
+            setState(() {
+              currentIndex = index;
+            });
+            //点击下面tabbar的时候执行动画跳转方法
+            _pageController.animateToPage(index,
+                duration: new Duration(milliseconds: 500),
+                curve: new ElasticOutCurve(4));
+          },
+        ),
+        body: PageView.builder(
+          controller: _pageController,
+          itemBuilder: (context, index) {
+            switch (index % 3) {
+              case 0:
                 return new Center(
                   child: Page1(),
                 );
-              },
-              onPageChanged: (index) {
-                currentIndex = index;
-                setState(() {
-                  currentIndex = index % 3;
-                });
-                print(index);
-              },
-            ),
-          ),
-        ));
+              case 1:
+                return new Center(
+                  child: ClsPage2(),
+                );
+
+              case 2:
+                return new Center(
+                  child: ClsPage3(),
+                );
+            }
+            return new Center(
+              child: Page1(),
+            );
+          },
+          onPageChanged: (index) {
+            currentIndex = index;
+            setState(() {
+              currentIndex = index % 3;
+            });
+            print(index);
+          },
+        ),
+      ),
+    );
   }
 }

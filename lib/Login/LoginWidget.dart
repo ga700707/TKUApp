@@ -3,9 +3,10 @@ import 'dart:convert';
 import 'package:ctestapp/Base/BaseConstant.dart';
 import 'package:ctestapp/Base/DatabaseHelper.dart';
 import 'package:ctestapp/Base/Request.dart';
-import 'package:ctestapp/PageView/PageViewCT.dart';
+
 
 import 'package:flutter/material.dart';
+import '../PageView/PageViewCT.dart';
 import 'LoginStyle.dart';
 
 final TextEditingController usernameCT = new TextEditingController();
@@ -42,14 +43,7 @@ Future<void> login() async {
       Constant.Chat_Api_URL + "member/login", jsonString);
   if (result == null) return;
   var jsonStr = json.decode(result);
-  print(jsonStr);
-  print(jsonStr['id']);
-  print(jsonStr['token']);
-
   Cookie().settoken(jsonStr['token']);
-  print("token");
-  print(Cookie.token);
-
   Navigator.push(
       mcontext, MaterialPageRoute(builder: (mcontext) => PageViewCT()));
   _insert();
