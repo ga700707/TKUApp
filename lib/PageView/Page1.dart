@@ -118,7 +118,7 @@ class FirstPageState extends State<Page1> with AutomaticKeepAliveClientMixin {
     var jsonStr = json.decode(result);
     print(jsonStr["id"]);
     Constant.examRoomId = jsonStr["id"];
-    Constant.examIndex = 25;
+    Constant.examIndex = 0;
     getExample();
   }
 
