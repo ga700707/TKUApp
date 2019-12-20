@@ -243,9 +243,9 @@ class GetPicABCBody extends State<GetPicABC> {
               padding: EdgeInsets.all(8.0),
               textColor: (true) ? Colors.yellow : Colors.white,
               splashColor: Color(0x20C85250),
-              color: (check[i]) ? Color(0x50C85250) : Colors.white,
+              color: (check[i]) ? Color(0xc0C85250) : Colors.white,
               elevation: 8.0,
-              highlightColor: Color(0x80C85250),
+              highlightColor: Color(0xb0C85250),
             
               child: Container(
                 width: MaxSize.width / 4,
