@@ -9,8 +9,10 @@ import 'package:ctestapp/ExamRoom/ExamRoomCT.dart';
 import 'package:ctestapp/Login/LoginStyle.dart';
 import 'package:ctestapp/Login/LoginWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:imagebutton/imagebutton.dart';
 import '../Base/BaseConstant.dart';
 import '../Base/Request.dart';
+import 'AC2.dart';
 
 class ExamRoomWidget {
   static AudioPlayer audioPlayer;
@@ -24,8 +26,7 @@ class ExamRoomWidget {
         Constant.Chat_Api_URL + "room/GetExam", jsonString);
     if (result == null) return;
     var jsonStr = json.decode(result);
-    var content = jsonStr["examplecontent"][0];
-    ExampleContent().init(content["voiceExample"]);
+    ExampleContent().init(jsonStr);
   }
 }
 
@@ -125,14 +126,13 @@ class GetHeaderBtn extends StatelessWidget {
         Constant.Chat_Api_URL + "room/GetExam", jsonString);
     if (result == null) return;
     var jsonStr = json.decode(result);
-    var content = jsonStr["examplecontent"][0];
-    ExampleContent().init(content);
-    Constant.turnScreen=false;
+    ExampleContent().init(jsonStr);
+
+    Constant.turnScreen = false;
     Navigator.push(
         mcontext,
         MaterialPageRoute(
             builder: (mcontext) => ExamRoomCT(), maintainState: false));
-   
   }
 }
 
@@ -199,26 +199,120 @@ class Get3AnswerBtn extends StatelessWidget {
   }
 }
 
-class GetPicABC extends StatelessWidget {
+class GetABCText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var pic = [ExampleContent.picA, ExampleContent.picB, ExampleContent.picC];
-    return SliverGrid(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        mainAxisSpacing: MaxSize.width / 20,
-        crossAxisSpacing: MaxSize.width / 20,
-        childAspectRatio: 1,
+    var answer = ["(A)", "(B)", "(C)"];
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          for (var a in answer) BodyText(a),
+        ],
       ),
-      delegate: SliverChildListDelegate([
-        for (var p in pic)
-          Container(
-            color: Colors.black,
-            child: new Image.memory(p),
-            alignment: Alignment.center,
-          ),
-      ]),
     );
+  }
+}
+
+class GetPicABC extends StatefulWidget {
+  @override
+  GetPicABCBody createState() => GetPicABCBody();
+}
+
+class GetPicABCBody extends State<GetPicABC> {
+  var pic = [ExampleContent.picA, ExampleContent.picB, ExampleContent.picC];
+  var check = [false, false, false];
+  var img = List<Image>();
+  bool check2 = false;
+  var color = Colors.yellow;
+
+  @override
+  Widget build(BuildContext context) {
+    for (var p in pic) {
+      img.add(new Image.memory(p,
+          width: MaxSize.width / 4,
+          height: MaxSize.width / 4,
+          fit: BoxFit.cover));
+    }
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          for (var i = 0; i < 3; i++)
+            MaterialButton(
+              padding: EdgeInsets.all(8.0),
+              textColor: (true) ? Colors.yellow : Colors.white,
+              splashColor: Color(0x20C85250),
+              color: (check[i]) ? Color(0x50C85250) : Colors.white,
+              elevation: 8.0,
+              highlightColor: Color(0x80C85250),
+            
+              child: Container(
+                width: MaxSize.width / 4,
+                height: MaxSize.width / 4,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: MemoryImage(pic[i]), fit: BoxFit.cover,colorFilter: ColorFilter.mode((check[i])?Color(0x30C85250):Colors.white, BlendMode.darken)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                     "",
+                    style: checkStyle(),
+                  ),
+                ),
+              ),
+              // ),
+
+              onPressed: () {
+                setState(() {
+                  for (var index = 0; index < 3; index++) {
+                    if (i == index)
+                      check[index] = true;
+                    else
+                      check[index] = false;
+                  }
+                });
+              },
+            ),
+          // Container(
+          //   color: Colors.black,
+          //   child: ImageButton(
+          //     color:Colors.black,
+          //     children: <Widget>[],
+          //     width: MaxSize.width / 4,
+          //     height: MaxSize.width / 4,
+          //     paddingTop: 5,
+          //     pressedImage: (check[i])?c:img[i],
+          //     unpressedImage: (check[i])?c:img[i],
+          //     onTap: () {
+          //       test();
+          //       setState(() {
+          //         // for(var c=0;c<3;c++)
+          //         // if(c==i)
+          //         //   check[i] = true;
+          //         // else
+          //           check[i] = true;
+          //       });
+
+          //       // img.fillRange(
+          //       //     0,
+          //       //     2,
+          //       //     Image.memory(pic[1],
+          //       //         width: MaxSize.width / 4,
+          //       //         height: MaxSize.width / 4,
+          //       //         fit: BoxFit.cover));
+          //     },
+          //   ),
+          //   alignment: Alignment.center,
+          // ),
+        ],
+      ),
+    );
+  }
+
+  test() {
+    print("dd");
   }
 }
 
@@ -251,6 +345,6 @@ class VoiceSlider extends StatelessWidget {
   Future play(url) async {
     AudioProvider audioProvider = new AudioProvider(url);
     String localUrl = await audioProvider.load();
-    await VoicePlay.audioPlayer.play(localUrl);
+    await VoicePlay.audioPlayer.play(localUrl, isLocal: true);
   }
 }

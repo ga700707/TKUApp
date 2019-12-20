@@ -118,7 +118,7 @@ class FirstPageState extends State<Page1> with AutomaticKeepAliveClientMixin {
     var jsonStr = json.decode(result);
     print(jsonStr["id"]);
     Constant.examRoomId = jsonStr["id"];
-    Constant.examIndex = 0;
+    Constant.examIndex = 25;
     getExample();
   }
 
@@ -130,9 +130,10 @@ class FirstPageState extends State<Page1> with AutomaticKeepAliveClientMixin {
     var result = await HttpService.postTestToken(
         Constant.Chat_Api_URL + "room/GetExam", jsonString);
     if (result == null) return;
+
     var jsonStr = json.decode(result);
-    var content = jsonStr["examplecontent"][0];
-    ExampleContent().init(content);
+    ExampleContent().init(jsonStr);
+
     Navigator.push(
         mcontext,
         MaterialPageRoute(

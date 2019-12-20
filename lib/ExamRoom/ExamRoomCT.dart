@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:ctestapp/ExamModal/AC1.dart';
+import 'package:ctestapp/ExamModal/AC2.dart';
+import 'package:ctestapp/ExamModal/AC3.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:orientation/orientation.dart';
@@ -96,9 +98,9 @@ class ExamRoomBody extends State<ExamPage> {
     // _positionSubscription.cancel();
     // _audioPlayerStateSubscription.cancel();
     audioPlayer.stop();
-    if(Constant.turnScreen)
+    if (Constant.turnScreen)
       OrientationPlugin.forceOrientation(DeviceOrientation.portraitUp);
-    Constant.turnScreen=true;
+    Constant.turnScreen = true;
     print("Dispose");
     super.dispose();
   }
@@ -115,6 +117,9 @@ class ExamRoomBody extends State<ExamPage> {
   @override
   Widget build(BuildContext context) {
     MaxSize().initWH(context);
+    print("=============");
+
+    print(ExampleContent.category.toString());
 
     switch (ExampleContent.category) {
       case 0:
@@ -122,6 +127,18 @@ class ExamRoomBody extends State<ExamPage> {
           child: Padding(
               padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 20),
               child: AC1()),
+        );
+      case 1:
+        return Center(
+          child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 20),
+              child: AC2()),
+        );
+      case 2:
+        return Center(
+          child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 20),
+              child: AC3()),
         );
       default:
         return Center(
@@ -129,14 +146,6 @@ class ExamRoomBody extends State<ExamPage> {
               padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 20),
               child: AC1()),
         );
-    }
-   
-  }
-
-  getExamModal() {
-    switch (ExampleContent.category) {
-      case 0:
-        return AC1();
     }
   }
 }

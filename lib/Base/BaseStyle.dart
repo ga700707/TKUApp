@@ -9,7 +9,13 @@ TextStyle btntext() {
       fontFamily: "Fredericka the Great",);
   return result;
 }
-
+TextStyle checkStyle() {
+  var result = TextStyle(
+      color:Colors.black,
+      fontSize: 20.0,
+      fontFamily: "Fredericka the Great",);
+  return result;
+}
 TextStyle nomalStyle() {
   var result = TextStyle(
       color: Colors.black,

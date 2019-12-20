@@ -41,7 +41,7 @@ Future<void> login() async {
   print(jsonString);
   var result = await HttpService.postTest(
       Constant.Chat_Api_URL + "member/login", jsonString);
-  if (result == null) return;
+  if (result == null) return; 
   var jsonStr = json.decode(result);
   Cookie().settoken(jsonStr['token']);
   Navigator.push(

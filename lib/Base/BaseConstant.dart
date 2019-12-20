@@ -28,16 +28,7 @@ class Cookie {
   }
 }
 
-class Example {
-  static double width;
-  static double height;
-  // 構造函數，需和類同名
-  initWH(context) {
-    final size = MediaQuery.of(context).size;
-    width = size.width;
-    height = size.height;
-  }
-}
+
 
 class ExampleContent {
   static String voiceExample;
@@ -51,9 +42,13 @@ class ExampleContent {
   static int level;
 
   // 構造函數，需和類同名
-  init(content) {
-    level = content["level"];
-    category = content["category"];
+  init(jsonStr) {
+    print("==========jsonStr==========");
+    print(jsonStr);
+    var content = jsonStr["examplecontent"][0];
+    print(content);
+    level = jsonStr["level"];
+    category = jsonStr["category"];
     voiceExample = content["voiceExample"];
     txtExample = content["txtExample"];
     if (content["picExample"] != null)

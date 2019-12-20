@@ -23,6 +23,7 @@ dependencies:
   sqflite: ^1.0.0
   audioplayers: ^0.13.5
   path_provider: ^1.5.1
+  imagebutton: ^0.0.6
   http: ^0.12.0+2
   orientation: ^1.1.0
   # The following adds the Cupertino Icons font to your application.
