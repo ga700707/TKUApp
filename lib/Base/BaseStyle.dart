@@ -19,7 +19,7 @@ TextStyle checkStyle() {
 TextStyle nomalStyle() {
   var result = TextStyle(
       color: Colors.black,
-      fontSize: 30.0,
+      fontSize: 20.0,
       fontFamily: "Fredericka the Great",);
   return result;
 }

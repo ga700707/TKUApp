@@ -2,9 +2,16 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:ctestapp/Base/BaseStyle.dart';
+import 'package:ctestapp/Base/Request.dart';
 import 'package:ctestapp/ExamModal/AC1.dart';
 import 'package:ctestapp/ExamModal/AC2.dart';
 import 'package:ctestapp/ExamModal/AC3.dart';
+import 'package:ctestapp/ExamModal/AC4.dart';
+import 'package:ctestapp/ExamModal/AC5.dart';
+import 'package:ctestapp/ExamModal/AC6.dart';
+import 'package:ctestapp/ExamModal/AC7.dart';
+import 'package:ctestapp/ExamModal/ModalWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:orientation/orientation.dart';
@@ -69,83 +76,131 @@ class ExamPage extends StatefulWidget {
 enum PlayerState { stopped, playing, paused }
 
 class ExamRoomBody extends State<ExamPage> {
-  Duration duration;
-  Duration position;
   AudioPlayer audioPlayer;
-  // PlayerState playerState = PlayerState.playing;
-
-  // get isPlaying => playerState == PlayerState.playing;
-  // get isPaused => playerState == PlayerState.paused;
-
-  get durationText =>
-      duration != null ? duration.toString().split('.').first : '';
-  get positionText =>
-      position != null ? position.toString().split('.').first : '';
-
+  bool _isButtonDisabled = true;
   bool isMuted = false;
 
-  StreamSubscription _positionSubscription;
-  StreamSubscription _audioPlayerStateSubscription;
   @override
   void initState() {
     super.initState();
-    initAudioPlayer();
+    VoicePlay().init(new AudioPlayer());
+
     OrientationPlugin.forceOrientation(DeviceOrientation.landscapeLeft);
   }
 
   @override
   void dispose() {
-    // _positionSubscription.cancel();
-    // _audioPlayerStateSubscription.cancel();
-    audioPlayer.stop();
+    try {
+      VoicePlay.audioPlayer.stop();
+    } catch (e) {
+      print("error");
+    }
+
+    //VoicePlay.audioPlayer.release();
     if (Constant.turnScreen)
       OrientationPlugin.forceOrientation(DeviceOrientation.portraitUp);
     Constant.turnScreen = true;
-    print("Dispose");
     super.dispose();
-  }
-
-  void initAudioPlayer() async {
-    audioPlayer = new AudioPlayer();
-    VoicePlay().init(audioPlayer);
-  }
-
-  void onComplete() {
-    //setState(() => playerState = PlayerState.stopped);
   }
 
   @override
   Widget build(BuildContext context) {
     MaxSize().initWH(context);
-    print("=============");
+    print("start");
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 20),
+        child: Column(children: <Widget>[
+          getHeaderBtn(),
+          getModal(),
+        ]),
+      ),
+    );
+  }
 
-    print(ExampleContent.category.toString());
-
+  getModal() {
+    print("modal");
     switch (ExampleContent.category) {
       case 0:
-        return Center(
-          child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 20),
-              child: AC1()),
-        );
+        return AC1();
       case 1:
-        return Center(
-          child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 20),
-              child: AC2()),
-        );
+        return AC2();
       case 2:
-        return Center(
-          child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 20),
-              child: AC3()),
-        );
+        return AC3();
+      case 3:
+        return AC4();
+      case 4:
+        return AC5();
+      case 5:
+        return AC6();
+      case 6:
+        return AC7();
+      case 7:
+        return AC5();
+      case 8:
+        return AC5();
       default:
-        return Center(
-          child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 20),
-              child: AC1()),
-        );
     }
+  }
+
+  getHeaderBtn() {
+    return Container(
+      padding: EdgeInsets.only(top: MaxSize.height / 30),
+      width: MaxSize.width,
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text((Constant.examIndex + 1).toString() + ".", style: btntext()),
+            Container(
+              height: MaxSize.height / 10,
+              alignment: Alignment.centerRight,
+              child: RaisedButton(
+                textTheme: ButtonTextTheme.accent,
+                highlightColor: Colors.lightBlue[100],
+                color: _isButtonDisabled
+                    ? Colors.lightBlue[400]
+                    : Colors.lightBlue[100],
+                shape: new BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    side: new BorderSide(style: BorderStyle.none)),
+                child: Text(
+                  "下一題",
+                  style: btntext(),
+                ),
+                onPressed: () async {
+                  if (_isButtonDisabled) getExample();
+                },
+              ),
+            ),
+          ]),
+    );
+  }
+
+  getExample() async {
+    setState(() {
+      _isButtonDisabled = false;
+      print("refresh");
+    });
+    VoicePlay.audioPlayer.stop();
+    VoicePlay.audioPlayer.state = AudioPlayerState.COMPLETED;
+
+    Map<String, String> jsonString = {
+      "ExamRoomId": Constant.examRoomId.toString(),
+      "ExamIndex": (Constant.examIndex + 1).toString(),
+    };
+    var result = await HttpService.postTestToken(
+        Constant.Chat_Api_URL + "room/GetExam", jsonString);
+    if (result == null) return;
+    var jsonStr = json.decode(result);
+    ExampleContent().init(jsonStr);
+    setState(() {
+      Constant.examIndex++;
+      _isButtonDisabled = true;
+      print("refresh");
+    });
+    // Navigator.push(
+    //     mcontext,
+    //     MaterialPageRoute(
+    //         builder: (mcontext) => ExamRoomCT(), maintainState: false));
   }
 }

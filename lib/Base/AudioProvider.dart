@@ -11,6 +11,8 @@ typedef void OnError(Exception exception);
 
 class VoicePlay {
   static AudioPlayer audioPlayer;
+  static Duration position;
+  static Duration duration;
   // 構造函數，需和類同名
   init(maudioPlayer) {
     audioPlayer = maudioPlayer;

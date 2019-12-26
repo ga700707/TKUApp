@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:orientation/orientation.dart';
-
 import 'Page1.dart';
 import 'Page2.dart';
 import 'Page3.dart';

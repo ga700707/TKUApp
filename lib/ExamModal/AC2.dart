@@ -17,10 +17,10 @@ class AC2 extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                GetHeaderBtn(),
+               // GetHeaderBtn(),
                 VoiceSlider(),
                 GetABCText(),
-                GetPicABC(),
+                GetPicABC(0),
 
                 //HeaderWidget("example"),
               ],

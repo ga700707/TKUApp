@@ -1,11 +1,10 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 import '../Base/BaseConstant.dart';
 import 'ModalWidget.dart';
 
 class AC1 extends StatelessWidget {
-  static AudioPlayer audioPlayer;
+  //static AudioPlayer audioPlayer;
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +17,10 @@ class AC1 extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                GetHeaderBtn(),
+                // GetHeaderBtn(),
                 VoiceSlider(),
-                Row(children: <Widget>[GetPicExample(),Get3AnswerBtn()],)
+                Row(children: <Widget>[GetPicExample(0),Get3AnswerBtn()],)
+
                 //HeaderWidget("example"),
               ],
             ),

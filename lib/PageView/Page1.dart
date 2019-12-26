@@ -125,7 +125,7 @@ class FirstPageState extends State<Page1> with AutomaticKeepAliveClientMixin {
   getExample() async {
     Map<String, String> jsonString = {
       "ExamRoomId": Constant.examRoomId.toString(),
-      "ExamIndex": Constant.examIndex.toString(),
+      "ExamIndex": (Constant.examIndex+1).toString(),
     };
     var result = await HttpService.postTestToken(
         Constant.Chat_Api_URL + "room/GetExam", jsonString);
