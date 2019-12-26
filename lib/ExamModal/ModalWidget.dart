@@ -104,7 +104,7 @@ class GetPicExample extends StatelessWidget {
       width: 0.3 * MaxSize.width,
       height: 0.3 * MaxSize.width,
       color: Colors.black,
-      child: new Image.memory(ExampleContent.picExample[index],
+      child: new Image.memory(ExampleContent.picExample,
           width: 0.3 * MaxSize.width,
           height: 0.3 * MaxSize.width,
           fit: BoxFit.cover),
@@ -321,9 +321,9 @@ class GetPicABCBody extends State<GetPicABC> {
   @override
   Widget build(BuildContext context) {
     var pic = [
-      ExampleContent.picA[index],
-      ExampleContent.picB[index],
-      ExampleContent.picC[index]
+      ExampleContent.picA,
+      ExampleContent.picB,
+      ExampleContent.picC
     ];
 
     print("GetPicABCBody");
