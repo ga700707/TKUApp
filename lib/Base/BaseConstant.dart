@@ -29,20 +29,20 @@ class Cookie {
 }
 
 class ExampleContent {
-  static var voiceExample = <String>[];
+  static String voiceExample;
 
-  static List<String> txtExample;
-  static List<String> txtA;
-  static List<String> txtB;
-  static List<String> txtC;
-  static List<String> txtD;
-  static List<String> txtE;
-  static List<String> txtF;
+  static String txtExample;
+  static String txtA;
+  static String txtB;
+  static String txtC;
+  static String txtD;
+  static String txtE;
+  static String txtF;
 
-  static List<Uint8List> picA;
-  static List<Uint8List> picB;
-  static List<Uint8List> picC;
-  static List<Uint8List> picExample;
+  static Uint8List picA;
+  static Uint8List picB;
+  static Uint8List picC;
+  static Uint8List picExample;
   static Uint8List picExampleGroup;
 
   static int category;
@@ -61,29 +61,27 @@ class ExampleContent {
       picExampleGroup = base64Decode(content["picExampleGroup"]);
 
     for (var i = 0; i < contentLength; i++) {
-      voiceExample[i] = content[i]["voiceExample"];
-      print(voiceExample);
-      voiceExample.add("1234");
-      txtExample[i] = content[i]["txtExample"];
-      txtA[i] = content[i]["txtA"];
-      txtB[i] = content[i]["txtB"];
-      txtC[i] = content[i]["txtC"];
-      txtD[i] = content[i]["txtD"];
-      txtE[i] = content[i]["txtE"];
-      txtF[i] = content[i]["txtF"];
+      voiceExample = content["voiceExample"];
+      txtExample = content["txtExample"];
+      txtA = content[i]["txtA"];
+      txtB = content[i]["txtB"];
+      txtC = content[i]["txtC"];
+      txtD = content[i]["txtD"];
+      txtE = content[i]["txtE"];
+      txtF = content[i]["txtF"];
 
-      if (content[i]["picExample"] != null)
-        picExample[i] = base64Decode(content[i]["picExample"]);
-      else if (content[i]["picA"] != null)
-        picA[i] = base64Decode(content[i]["picA"]);
+      if (content["picExample"] != null)
+        picExample = base64Decode(content["picExample"]);
+      else if (content["picA"] != null)
+        picA = base64Decode(content["picA"]);
       else
-        picA[i] = null;
-      if (content[i]["picB"] != null)
-        picB[i] = base64Decode(content[i]["picB"]);
+        picA = null;
+      if (content["picB"] != null)
+        picB = base64Decode(content["picB"]);
       else
-        picB[i] = null;
+        picB = null;
       if (content[i]["picC"] != null)
-        picC[i] = base64Decode(content[i]["picC"]);
+        picC = base64Decode(content["picC"]);
       else
         picC[i] = null;
     }
