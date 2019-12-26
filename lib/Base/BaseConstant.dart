@@ -60,30 +60,19 @@ class ExampleContent {
     if (jsonStr["picExampleGroup"] != null)
       picExampleGroup = base64Decode(content["picExampleGroup"]);
 
-    for (var i = 0; i < contentLength; i++) {
-      voiceExample = content["voiceExample"];
-      txtExample = content["txtExample"];
-      txtA = content[i]["txtA"];
-      txtB = content[i]["txtB"];
-      txtC = content[i]["txtC"];
-      txtD = content[i]["txtD"];
-      txtE = content[i]["txtE"];
-      txtF = content[i]["txtF"];
-
-      if (content["picExample"] != null)
-        picExample = base64Decode(content["picExample"]);
-      else if (content["picA"] != null)
-        picA = base64Decode(content["picA"]);
-      else
-        picA = null;
-      if (content["picB"] != null)
-        picB = base64Decode(content["picB"]);
-      else
-        picB = null;
-      if (content[i]["picC"] != null)
-        picC = base64Decode(content["picC"]);
-      else
-        picC[i] = null;
-    }
+    if (content["picExample"] != null)
+      picExample = base64Decode(content["picExample"]);
+    else if (content["picA"] != null)
+      picA = base64Decode(content["picA"]);
+    else
+      picA = null;
+    if (content["picB"] != null)
+      picB = base64Decode(content["picB"]);
+    else
+      picB = null;
+    if (content["picC"] != null)
+      picC = base64Decode(content["picC"]);
+    else
+      picC = null;
   }
 }

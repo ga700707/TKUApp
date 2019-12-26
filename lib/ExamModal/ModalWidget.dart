@@ -214,12 +214,12 @@ class GetAnswerTxtBtnBody extends State<GetAnswerTxtBtn> {
 
     check = [false, false, false, false, false, false];
     answerTxt = [
-      ExampleContent.txtA[index],
-      ExampleContent.txtB[index],
-      ExampleContent.txtC[index],
-      ExampleContent.txtD[index],
-      ExampleContent.txtE[index],
-      ExampleContent.txtF[index],
+      ExampleContent.txtA,
+      ExampleContent.txtB,
+      ExampleContent.txtC,
+      ExampleContent.txtD,
+      ExampleContent.txtE,
+      ExampleContent.txtF,
     ];
     super.initState();
   }
@@ -233,12 +233,12 @@ class GetAnswerTxtBtnBody extends State<GetAnswerTxtBtn> {
     print("didUpdateWidget");
     check = [false, false, false, false, false, false];
     answerTxt = [
-      ExampleContent.txtA[index],
-      ExampleContent.txtB[index],
-      ExampleContent.txtC[index],
-      ExampleContent.txtD[index],
-      ExampleContent.txtE[index],
-      ExampleContent.txtF[index],
+      ExampleContent.txtA,
+      ExampleContent.txtB,
+      ExampleContent.txtC,
+      ExampleContent.txtD,
+      ExampleContent.txtE,
+      ExampleContent.txtF,
     ];
   }
 
