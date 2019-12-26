@@ -53,16 +53,17 @@ class ExampleContent {
     print("==========jsonStr==========");
     print(jsonStr);
     print("length" + jsonStr["examplecontent"].length.toString());
-    var content = jsonStr["examplecontent"];
-    contentLength = content.length;
+    var content = jsonStr["examplecontent"][0];
     level = jsonStr["level"];
     category = jsonStr["category"];
-    if (jsonStr["picExampleGroup"] != null)
+    if (jsonStr["picExampleGroup"]!= null)
       picExampleGroup = base64Decode(content["picExampleGroup"]);
-
-    if (content["picExample"] != null)
+    voiceExample = content["voiceExample"];
+    if (content["picExample"].toString()!= null)
       picExample = base64Decode(content["picExample"]);
-    else if (content["picA"] != null)
+    else
+      picExample = null;
+    if (content["picA"] != null)
       picA = base64Decode(content["picA"]);
     else
       picA = null;

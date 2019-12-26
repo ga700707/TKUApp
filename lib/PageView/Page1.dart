@@ -133,7 +133,6 @@ class FirstPageState extends State<Page1> with AutomaticKeepAliveClientMixin {
 
     var jsonStr = json.decode(result);
     ExampleContent().init(jsonStr);
-
     Navigator.push(
         mcontext,
         MaterialPageRoute(
