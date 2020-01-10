@@ -1,3 +1,4 @@
+import 'package:ctestapp/Base/BaseStyle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,11 +50,11 @@ class _HomePageState extends State<PageViewCT>
 
   //建立下面三个按钮数组
   final List<BottomNavigationBarItem> bottomTabs = [
-    BottomNavigationBarItem(icon: Icon(CupertinoIcons.home), title: Text("首页")),
+    BottomNavigationBarItem(icon: Icon(CupertinoIcons.home), title: Text("首页",style: nomalStyle(),)),
     BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.search), title: Text("备用")),
+        icon: Icon(CupertinoIcons.search), title: Text("練習",style: nomalStyle())),
     BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.profile_circled), title: Text("我的"))
+        icon: Icon(CupertinoIcons.profile_circled), title: Text("成績",style: nomalStyle()))
   ];
   //把3个页面排成数组形式方便切换
   final List<Widget> tabBodies = [

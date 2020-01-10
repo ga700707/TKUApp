@@ -1,3 +1,4 @@
+import 'package:ctestapp/Base/BaseStyle.dart';
 import 'package:flutter/material.dart';
 
 import '../Base/BaseConstant.dart';
@@ -17,14 +18,31 @@ class AC7 extends StatelessWidget {
             delegate: SliverChildListDelegate(
               [
                 Row(
-                  //mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
                     GetPicExampleGroup(),
-                    // new Flexible(
-                    //   child: GetAnswerTxtBtn(index: 3),
-                    // )
+                    //for (var i = 0; i < 3; i++)
+                    Expanded(
+                      child: Column(children: <Widget>[
+                        for (var i = 0; i < ExampleContent.contentLength; i++)
+                          Container(
+                            child: Column(children: <Widget>[
+                              Row(children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(left: 16.0),
+                                  child: Text(
+                                    "(" + (i + 1).toString() + ")",
+                                    style: nomalStyle(),
+                                  ),
+                                ),
+                                GetTxtExample(i),
+                              ]),
+                              GetGroupAnswerTxtBtn(3, i),
+                            ]),
+                          ),
+                      ]),
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),

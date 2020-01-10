@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:ctestapp/Base/BaseStyle.dart';
 import 'package:ctestapp/Base/Request.dart';
+import 'package:ctestapp/Base/Timer.dart';
 import 'package:ctestapp/ExamModal/AC1.dart';
 import 'package:ctestapp/ExamModal/AC2.dart';
 import 'package:ctestapp/ExamModal/AC3.dart';
@@ -11,7 +13,9 @@ import 'package:ctestapp/ExamModal/AC4.dart';
 import 'package:ctestapp/ExamModal/AC5.dart';
 import 'package:ctestapp/ExamModal/AC6.dart';
 import 'package:ctestapp/ExamModal/AC7.dart';
-import 'package:ctestapp/ExamModal/ModalWidget.dart';
+import 'package:ctestapp/ExamModal/AC8.dart';
+import 'package:ctestapp/ExamModal/AC9.dart';
+import 'package:ctestapp/Grade/GradeView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:orientation/orientation.dart';
@@ -29,6 +33,8 @@ void main() {
 class ExamRoomCT extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    mcontext = context;
+
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -78,6 +84,7 @@ enum PlayerState { stopped, playing, paused }
 class ExamRoomBody extends State<ExamPage> {
   AudioPlayer audioPlayer;
   bool _isButtonDisabled = true;
+  bool _isFinishDisabled = false;
   bool isMuted = false;
 
   @override
@@ -136,9 +143,9 @@ class ExamRoomBody extends State<ExamPage> {
       case 6:
         return AC7();
       case 7:
-        return AC5();
+        return AC8();
       case 8:
-        return AC5();
+        return AC9();
       default:
     }
   }
@@ -151,38 +158,62 @@ class ExamRoomBody extends State<ExamPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text((Constant.examIndex + 1).toString() + ".", style: btntext()),
+            Countdown(),
+            //Countdown(),
+
             Container(
               height: MaxSize.height / 10,
               alignment: Alignment.centerRight,
-              child: RaisedButton(
-                textTheme: ButtonTextTheme.accent,
-                highlightColor: Colors.lightBlue[100],
-                color: _isButtonDisabled
-                    ? Colors.lightBlue[400]
-                    : Colors.lightBlue[100],
-                shape: new BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                    side: new BorderSide(style: BorderStyle.none)),
-                child: Text(
-                  "下一題",
-                  style: btntext(),
+              child: Row(children: <Widget>[
+                RaisedButton(
+                  textTheme: ButtonTextTheme.accent,
+                  highlightColor: Colors.lightBlue[100],
+                  color: _isFinishDisabled
+                      ? Colors.lightBlue[400]
+                      : Colors.lightBlue[100],
+                  shape: new BeveledRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                      side: new BorderSide(style: BorderStyle.none)),
+                  child: Text(
+                    "結束測驗",
+                    style: btntext(),
+                  ),
+                  onPressed: () async {
+                    if (_isFinishDisabled) finishExample();
+                  },
                 ),
-                onPressed: () async {
-                  if (_isButtonDisabled) getExample();
-                },
-              ),
-            ),
+                RaisedButton(
+                  textTheme: ButtonTextTheme.accent,
+                  highlightColor: Colors.lightBlue[100],
+                  color: _isButtonDisabled
+                      ? Colors.lightBlue[400]
+                      : Colors.lightBlue[100],
+                  shape: new BeveledRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                      side: new BorderSide(style: BorderStyle.none)),
+                  child: Text(
+                    "下一題",
+                    style: btntext(),
+                  ),
+                  onPressed: () async {
+                    if (_isButtonDisabled) getExample();
+                  },
+                ),
+              ]),
+            )
           ]),
     );
   }
 
   getExample() async {
+    VoicePlay.audioPlayer.release();
+
     setState(() {
+      Constant.isPlay = false;
       _isButtonDisabled = false;
       print("refresh");
     });
-    VoicePlay.audioPlayer.stop();
-    VoicePlay.audioPlayer.state = AudioPlayerState.COMPLETED;
+    //VoicePlay.audioPlayer.state = AudioPlayerState.COMPLETED;
 
     Map<String, String> jsonString = {
       "ExamRoomId": Constant.examRoomId.toString(),
@@ -194,13 +225,38 @@ class ExamRoomBody extends State<ExamPage> {
     var jsonStr = json.decode(result);
     ExampleContent().init(jsonStr);
     setState(() {
+      Constant.isPlay = true;
       Constant.examIndex++;
-      _isButtonDisabled = true;
+      if (Constant.examIndex < Constant.examLength - 1)
+        _isButtonDisabled = true;
+      else
+        _isFinishDisabled = true;
       print("refresh");
     });
-    // Navigator.push(
-    //     mcontext,
-    //     MaterialPageRoute(
-    //         builder: (mcontext) => ExamRoomCT(), maintainState: false));
+  }
+
+  finishExample() async {
+    Map<String, String> jsonString = {
+      "JsonArray": Answer().getAll().toString(),
+      "MemberId": Cookie.id.toString(),
+      "ExamRoomId": Constant.examRoomId.toString(),
+    };
+
+    var result = await HttpService.postTestToken(
+        Constant.Chat_Api_URL + "room/FinalExam", jsonString);
+    if (result == null) return;
+    var jsonStr = json.decode(result);
+    print(jsonStr);
+    Grade.voiceCorrect = jsonStr["voiceCorrect"];
+    Grade.readCorrect = jsonStr["readCorrect"];
+    Grade.voiceTotal = jsonStr["voiceTotal"];
+    Grade.readTotal = jsonStr["readTotal"];
+    Grade.voiceScore = jsonStr["voiceScore"];
+    Grade.readScore = jsonStr["readScore"];
+    Navigator.push(
+        mcontext,
+        MaterialPageRoute(
+            builder: (mcontext) => GradeView(), maintainState: false));
+  
   }
 }

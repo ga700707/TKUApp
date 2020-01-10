@@ -40,9 +40,10 @@ Future<void> login() async {
   print(jsonString);
   var result = await HttpService.postTest(
       Constant.Chat_Api_URL + "member/login", jsonString);
-  if (result == null) return; 
+  if (result == null) return;
   var jsonStr = json.decode(result);
   Cookie().settoken(jsonStr['token']);
+  Cookie().setId(jsonStr['id']);
   Navigator.push(
       mcontext, MaterialPageRoute(builder: (mcontext) => PageViewCT()));
   _insert();

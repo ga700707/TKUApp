@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ctestapp/Base/Timer.dart';
 import 'package:flutter/material.dart';
 
 import '../Base/BaseConstant.dart';
@@ -116,16 +117,20 @@ class FirstPageState extends State<Page1> with AutomaticKeepAliveClientMixin {
         Constant.Chat_Api_URL + "room/CheckAuthentication", jsonString);
     if (result == null) return;
     var jsonStr = json.decode(result);
-    print(jsonStr["id"]);
     Constant.examRoomId = jsonStr["id"];
-    Constant.examIndex = 0;
+
+    Constant.examIndex = 70;
+    Constant.examLength = jsonStr["exam"].length;
+    Answer().init();
+
     getExample();
+ 
   }
 
   getExample() async {
     Map<String, String> jsonString = {
       "ExamRoomId": Constant.examRoomId.toString(),
-      "ExamIndex": (Constant.examIndex+1).toString(),
+      "ExamIndex": (Constant.examIndex).toString(),
     };
     var result = await HttpService.postTestToken(
         Constant.Chat_Api_URL + "room/GetExam", jsonString);
@@ -133,6 +138,7 @@ class FirstPageState extends State<Page1> with AutomaticKeepAliveClientMixin {
 
     var jsonStr = json.decode(result);
     ExampleContent().init(jsonStr);
+    Constant.isPlay = true;
     Navigator.push(
         mcontext,
         MaterialPageRoute(

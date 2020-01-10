@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'CTest',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'CTest'),
     );
   }
 }
@@ -46,8 +46,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   @override
   Widget build(BuildContext context) {
     MaxSize().initWH(context);
@@ -64,30 +62,44 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 10),
-          child: Column(children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: MaxSize.height / 80),
-              child: createUsernameField(),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: MaxSize.height / 80),
-              child: createPasswordField(),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: MaxSize.height / 80),
-              child: createLoginBtn(),
-            ),
-          ]),
+      body: Container(
+        decoration: new BoxDecoration(color: Colors.black),
+        child: new Center(
+          child: Column(
+            children: <Widget>[
+              new Image.asset("assets/images/title.jpg",
+                  width: MaxSize.width * 0.7,
+                  //height: 0.4 * MaxSize.width,
+                  fit: BoxFit.cover),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: MaxSize.width / 10),
+                child: Column(children: <Widget>[
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: MaxSize.height / 80),
+                    child: createUsernameField(),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: MaxSize.height / 80),
+                    child: createPasswordField(),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: MaxSize.height / 80),
+                    child: createLoginBtn(),
+                  ),
+                ]),
+              )
+            ],
+          ),
         ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: _incrementCounter,
+        //   tooltip: 'Increment',
+        //   child: Icon(Icons.add),
+        // ), // This trailing comma makes auto-formatting nicer for build methods.
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

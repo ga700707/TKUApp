@@ -18,10 +18,7 @@ class AC4 extends StatelessWidget {
               [
                 //GetHeaderBtn(),
                 VoiceSlider(),
-                GetAnswerTxtBtn(
-                  btnNumber: 4
-                ),
-
+                GetAnswerTxtBtn(4,0),
               ],
             ),
           ),

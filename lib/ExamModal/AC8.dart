@@ -1,9 +1,10 @@
+import 'package:ctestapp/Base/BaseStyle.dart';
 import 'package:flutter/material.dart';
 
 import '../Base/BaseConstant.dart';
 import 'ModalWidget.dart';
 
-class AC6 extends StatelessWidget {
+class AC8 extends StatelessWidget {
   //static AudioPlayer audioPlayer;
 
   @override
@@ -16,13 +17,13 @@ class AC6 extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate(
               [
+                GetTxtExampleGroup(),
                 Row(
-                  //mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  verticalDirection: VerticalDirection.down,
                   children: <Widget>[
-                    GetPicExample(0),
-                    new Flexible(
-                      child: GetAnswerTxtBtn(3,0),
-                    )
+                    GetGroupAnswerTxtLabel(6, 0),
+                    GetOptionAnswerTxtBtn(6, 0),
                   ],
                 )
               ],
